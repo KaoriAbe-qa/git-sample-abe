@@ -1,5 +1,9 @@
 package com.example.controller;
+<<<<<<< HEAD
 //abe
+=======
+//tanimoto
+>>>>>>> feature/login
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,51 +28,51 @@ public class Ex17Controller {
 	//入力画面の表示
 	@RequestMapping("")
 	public String index(Model model) {
-		
+
 		//今回はここで要素を入れる
 		Map<Integer,String> hobbyMap = new LinkedHashMap<>();
 		hobbyMap.put(1, "テニス");
 		hobbyMap.put(2, "野球");
 		hobbyMap.put(3, "ゴルフ");
-		
+
 		//hobbyMapというキーでスコープに格納
 		model.addAttribute("hobbyMap",hobbyMap);
-		
+
 		//言語の要素もここから追加
 		Map<Integer,String> langMap = new LinkedHashMap<>();
 		langMap.put(1, "Java");
 		langMap.put(2, "Python");
 		langMap.put(3, "Ruby");
-		
+
 		//langMapというキーでスコープに格納
 		model.addAttribute("langMap", langMap);
-		
+
 		//userフォルダのex-17-input.htmlを指す
 		return "user/ex-17-input";
 	}
-	
+
 	@ModelAttribute
 	public Ex17Form setUpForm() {
 		return new Ex17Form();
 	}
-	
+
 	@RequestMapping("/create")
 	public String create(@Validated Ex17Form form
 			, BindingResult result
 			, RedirectAttributes redirectAttributes
 			, Model model) {
-		
+
 		//もしエラーがあったら遷移する
 		if(result.hasErrors()) {
 			return index(model);
 		}
-		
+
 		//オブジェクト
 		Ex17 ex17 = new Ex17();
-		
+
 		//フォームからドメインにコピーできることをコピー
 		BeanUtils.copyProperties(form, ex17);
-		
+
 		//型の違うhobbyListとlangListを手動でコピー
 		List<String> hobbyList = new ArrayList<>();
 		for(Integer hobbyCode:form.getHobbyList()) {
@@ -85,7 +89,7 @@ public class Ex17Controller {
 			}
 		}
 		ex17.setHobbyList(hobbyList);
-		
+
 		List<String> langList = new ArrayList<>();
 		for(Integer langCode:form.getLangList()) {
 			switch(langCode) {
@@ -101,20 +105,20 @@ public class Ex17Controller {
 			}
 		}
 		ex17.setLangList(langList);
-		
+
 		//今回はflashスコープに格納
 		redirectAttributes.addFlashAttribute("ex17", ex17);
-	
+
 		//登録完了画面にフォワードするメソッドにリダイレクト
 		//↓のはURL
 		return "redirect:/ex17/ex17result";
 	}
-	
+
 	@RequestMapping("/ex17result")
 	public String ex17result() {
 		//フォワード
 		//↓のはhtml
 		return "user/ex-17-result";
 	}
-	
+
 }
